@@ -20,7 +20,8 @@ per day, so changes might take some time to be noticed.
 1. Install dependencies
    - Use `npm ci`, `npm i`, or your package manager of choice.
 2. Start the diagnostics
-   - Use `npm start your-labeler-name.bsky.social`
+   - Use `npm scan your-labeler-name.bsky.social`
+   - Control behavior like `npm scan -- --agent MyScan your-labeler-name.bsky.social`
 
 ## Tests
 
