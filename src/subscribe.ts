@@ -15,6 +15,7 @@ type SubscribeLabels = {
   key?: string;
   limit?: number;
   registeredLabels?: Set<string>;
+  userAgent: string;
 };
 
 export async function subscribeLabels({
@@ -22,6 +23,7 @@ export async function subscribeLabels({
   registeredLabels,
   key,
   limit = 250,
+  userAgent,
 }: SubscribeLabels): Promise<EndpointAssessment> {
   let assess = new EndpointAssessment();
 
@@ -40,6 +42,9 @@ export async function subscribeLabels({
     // be either `wss` or `ws`.
     service: `${endpoint.protocol.replace("http", "ws")}//${endpoint.host}`,
     method: ids.ComAtprotoLabelSubscribeLabels,
+    headers: {
+      "User-Agent": userAgent,
+    },
     getParams() {
       return { cursor: 0 };
     },

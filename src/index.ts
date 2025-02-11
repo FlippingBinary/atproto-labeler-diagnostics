@@ -16,6 +16,8 @@ import chalk from "chalk";
 import { EndpointAssessment } from "./util.js";
 const terminal = kit.terminal;
 
+const USER_AGENT =
+  process.env.USER_AGENT ?? "github:FlippingBinary/atproto-labeler-diagnostics";
 const ATPROTO_PDS = process.env.ATPROTO_PDS ?? "https://bsky.social";
 const ATPROTO_PLC = process.env.ATPROTO_PLC ?? "https://plc.directory";
 
@@ -96,6 +98,11 @@ async function main() {
     .description("AT Protocol Labeler Diagnostics")
     .version("0.1.0")
     .option(
+      "--agent <user-agent>",
+      "The user-agent string to use when connecting to the labeler",
+      USER_AGENT,
+    )
+    .option(
       "--depth <count>",
       "The target number of labels to validate",
       normalizeInt,
@@ -144,6 +151,7 @@ The following environment variables control the default behavior:
   let plcUrl: string | undefined = options.plc;
   let pdsUrl: string | undefined = options.pds;
   let labels: Set<string> | undefined;
+  let userAgent: string = options.agent;
 
   if (
     full ||
@@ -215,6 +223,7 @@ The following environment variables control the default behavior:
         uriPatterns: ["*"],
         registeredLabels: labels,
         key: validationKey,
+        userAgent,
       }),
     );
     await assessEndpoint(
@@ -225,6 +234,7 @@ The following environment variables control the default behavior:
         registeredLabels: labels,
         key: validationKey,
         limit: 10,
+        userAgent,
       }),
     );
   }

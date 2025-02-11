@@ -11,6 +11,7 @@ type QueryLabels = {
   limit?: number;
   registeredLabels?: Set<string>;
   uriPatterns: string[];
+  userAgent: string;
 };
 
 export async function queryLabels({
@@ -20,6 +21,7 @@ export async function queryLabels({
   limit,
   registeredLabels,
   key,
+  userAgent,
 }: QueryLabels): Promise<EndpointAssessment> {
   let assess = new EndpointAssessment();
   let labels: ComAtprotoLabelDefs.Label[] = [];
@@ -27,11 +29,18 @@ export async function queryLabels({
   try {
     const agent = new Agent(endpoint);
 
-    const res = await agent.com.atproto.label.queryLabels({
-      uriPatterns,
-      cursor: cursor.toString(),
-      limit,
-    });
+    const res = await agent.com.atproto.label.queryLabels(
+      {
+        uriPatterns,
+        cursor: cursor.toString(),
+        limit,
+      },
+      {
+        headers: {
+          "User-Agent": userAgent,
+        },
+      },
+    );
 
     labels = res.data.labels;
   } catch (err) {
