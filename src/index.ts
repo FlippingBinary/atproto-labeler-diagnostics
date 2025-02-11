@@ -153,6 +153,8 @@ The following environment variables control the default behavior:
   let labels: Set<string> | undefined;
   let userAgent: string = options.agent;
 
+  console.log(`Running scan on ${handle}...`);
+
   if (
     full ||
     did === undefined ||
