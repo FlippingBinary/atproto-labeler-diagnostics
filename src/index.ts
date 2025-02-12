@@ -1,7 +1,6 @@
 import { AppBskyLabelerService, AtpAgent } from "@atproto/api";
 import { emojify } from "node-emoji";
 import { getDidKeyFromMultibase, IdResolver } from "@atproto/identity";
-import "dotenv/config";
 import { subscribeLabels } from "./subscribe.js";
 import { queryLabels } from "./query.js";
 import {
